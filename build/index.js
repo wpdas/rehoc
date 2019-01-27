@@ -1,234 +1,27 @@
-module.exports =
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getStore = exports.updateState = exports.connect = exports.setStates = exports.rehoc = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var store = {};
-var InternalProvider = void 0;
-var onUpdateStoreHandler = void 0;
-
-/**
+module.exports=/******/function(a){/******//******/// The require function
+/******/function b(d){/******//******/// Check if module is in cache
+/******/if(c[d])/******/return c[d].exports;/******//******/// Create a new module (and put it into the cache)
+/******/var e=c[d]={/******/i:d,/******/l:!1,/******/exports:{}/******/};/******//******/// Execute the module function
+/******//******//******/// Return the exports of the module
+/******/return a[d].call(e.exports,e,e.exports,b),e.l=!0,e.exports;/******/}/******//******//******/// expose the modules object (__webpack_modules__)
+/******/// webpackBootstrap
+/******/// The module cache
+/******/var c={};/******//******//******/// Load entry module and return exports
+/******/return b.m=a,b.c=c,b.d=function(a,c,d){b.o(a,c)||Object.defineProperty(a,c,{enumerable:!0,get:d})},b.r=function(a){'undefined'!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(a,Symbol.toStringTag,{value:'Module'}),Object.defineProperty(a,'__esModule',{value:!0})},b.t=function(a,c){/******/if(1&c&&(a=b(a)),8&c)return a;/******/if(4&c&&'object'==typeof a&&a&&a.__esModule)return a;/******/var d=Object.create(null);/******//******/if(b.r(d),Object.defineProperty(d,'default',{enumerable:!0,value:a}),2&c&&'string'!=typeof a)for(var e in a)b.d(d,e,function(b){return a[b]}.bind(null,e));/******/return d;/******/},b.n=function(a){/******/var c=a&&a.__esModule?/******/function(){return a['default']}:/******/function(){return a};/******//******/return b.d(c,'a',c),c;/******/},b.o=function(a,b){return Object.prototype.hasOwnProperty.call(a,b)},b.p='',b(b.s=0);/******/}(/************************************************************************//******/[/* 0 *//***/function(a,b,c){'use strict';function d(a,b){if(!(a instanceof b))throw new TypeError('Cannot call a class as a function')}function e(a,b){if(!a)throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');return b&&('object'==typeof b||'function'==typeof b)?b:a}function f(a,b){if('function'!=typeof b&&null!==b)throw new TypeError('Super expression must either be null or a function, not '+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}Object.defineProperty(b,'__esModule',{value:!0}),b.getStore=b.updateState=b.connect=b.setStates=b.rehoc=void 0;/***/var g=Object.assign||function(a){for(var b,c=1;c<arguments.length;c++)for(var d in b=arguments[c],b)Object.prototype.hasOwnProperty.call(b,d)&&(a[d]=b[d]);return a},h=function(){function a(a,b){for(var c,d=0;d<b.length;d++)c=b[d],c.enumerable=c.enumerable||!1,c.configurable=!0,'value'in c&&(c.writable=!0),Object.defineProperty(a,c.key,c)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),i=c(1),j=function(a){return a&&a.__esModule?a:{default:a}}(i),k={},l=void 0,m=void 0,n=b.rehoc=function(a){return s(),function(b){function c(){return d(this,c),e(this,(c.__proto__||Object.getPrototypeOf(c)).apply(this,arguments))}return f(c,b),h(c,[{key:'render',value:function(){return j.default.createElement(l,{value:k},j.default.createElement(a,this.props))}}]),c}(j.default.Component)},o=b.setStates=function(){k=g({},0>=arguments.length?void 0:arguments[0]),s()},p=b.connect=function(a){return s(),function(b){function c(a){d(this,c);var b=e(this,(c.__proto__||Object.getPrototypeOf(c)).call(this,a));return b.onUpdateStoreHandler=b.onUpdateStoreHandler.bind(b),m=function(){b.onUpdateStoreHandler()},b}return f(c,b),h(c,[{key:'onUpdateStoreHandler',value:function(){this.forceUpdate()}},{key:'render',value:function(){var b=g({},this.props,k);return j.default.createElement(a,b)}}]),c}(j.default.Component)},q=b.updateState=function(a,b){k[a]=g({},k[a],b),m&&m()},r=b.getStore=function(){return k},s=function(){if(!l){var a=j.default.createContext(),b=a.Provider;l=b}};/**
  * Init Rehoc
  * @param {React.Component} WrappedComponent
- */
-var rehoc = exports.rehoc = function rehoc(WrappedComponent) {
-  verifyBuild();
-  return function (_React$Component) {
-    _inherits(_class, _React$Component);
-
-    function _class() {
-      _classCallCheck(this, _class);
-
-      return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
-    }
-
-    _createClass(_class, [{
-      key: 'render',
-      value: function render() {
-        return _react2.default.createElement(
-          InternalProvider,
-          { value: store },
-          _react2.default.createElement(WrappedComponent, this.props)
-        );
-      }
-    }]);
-
-    return _class;
-  }(_react2.default.Component);
-};
-
-/**
+ *//**
  * Set states
  * Example: setStates({stateA:{}, stateB:{}})
  * @param  {Object} state
- */
-var setStates = exports.setStates = function setStates() {
-  store = _extends({}, arguments.length <= 0 ? undefined : arguments[0]);
-  verifyBuild();
-};
-
-/**
+ *//**
  * Creates a connection between states and component
  * @param {React.Component} ChildWrappedComponent
- */
-var connect = exports.connect = function connect(ChildWrappedComponent) {
-  verifyBuild();
-
-  return function (_React$Component2) {
-    _inherits(_class2, _React$Component2);
-
-    function _class2(props) {
-      _classCallCheck(this, _class2);
-
-      var _this2 = _possibleConstructorReturn(this, (_class2.__proto__ || Object.getPrototypeOf(_class2)).call(this, props));
-
-      _this2.onUpdateStoreHandler = _this2.onUpdateStoreHandler.bind(_this2);
-      onUpdateStoreHandler = function onUpdateStoreHandler() {
-        _this2.onUpdateStoreHandler();
-      };
-      return _this2;
-    }
-
-    _createClass(_class2, [{
-      key: 'onUpdateStoreHandler',
-      value: function onUpdateStoreHandler() {
-        this.forceUpdate();
-      }
-    }, {
-      key: 'render',
-      value: function render() {
-        var updatedProps = _extends({}, this.props, store);
-        return _react2.default.createElement(ChildWrappedComponent, updatedProps);
-      }
-    }]);
-
-    return _class2;
-  }(_react2.default.Component);
-};
-
-/**
+ *//**
  * Updates the state body by stateKey
  * Example: updateState('stateA', {});
  * @param {String} stateKey
  * @param {Object} updatedObject
- */
-var updateState = exports.updateState = function updateState(stateKey, updatedObject) {
-  store[stateKey] = _extends({}, store[stateKey], updatedObject);
-
-  if (onUpdateStoreHandler) onUpdateStoreHandler();
-};
-
-/**
+ *//**
  * Return store containing all states
- */
-var getStore = exports.getStore = function getStore() {
-  return store;
-};
-
-var verifyBuild = function verifyBuild() {
-  if (!InternalProvider) {
-    var _React$createContext = _react2.default.createContext(),
-        Provider = _React$createContext.Provider;
-
-    InternalProvider = Provider;
-  }
-};
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = require("react");
-
-/***/ })
-/******/ ]);
+ */},/* 1 *//***/function(a){a.exports=require('react')}]/***//******/);

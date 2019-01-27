@@ -1,4 +1,5 @@
 var path = require('path');
+const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 module.exports = {
   mode: 'none',
@@ -8,6 +9,10 @@ module.exports = {
     filename: 'index.js',
     libraryTarget: 'commonjs2'
   },
+  plugins: [
+    //Remove to avoid minify and remove comments
+    new MinifyPlugin()
+  ],
   module: {
     rules: [
       {
