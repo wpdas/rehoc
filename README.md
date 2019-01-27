@@ -18,8 +18,12 @@ This assumes you are using [npm](https://www.npmjs.com/) as your package manager
 
 ### How to use
 
-Below are examples of how to use the Rehoc, you can also check our [example app](#). Initializing and consuming Rehoc resources is very simple, let's see this now.
-You can create your states separated from the Component code as shown below:
+Below are examples of how to use the Rehoc, you can also check our [example app](https://github.com/Wpdas/rehoc/tree/master/example_app/src).
+
+Example app working:
+<img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
+
+Initializing and consuming Rehoc resources is very simple, you can create your states separated from the Component code as shown below:
 
 ```javascript
 User State -> ../src/states/user-state.js
