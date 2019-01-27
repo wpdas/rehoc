@@ -20,10 +20,6 @@ This assumes you are using [npm](https://www.npmjs.com/) as your package manager
 
 Below are examples of how to use the Rehoc, you can also check our example app.
 
-Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
-
-<img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
-
 Initializing and consuming Rehoc resources is very simple, you can create your states separated from the Component code as shown below:
 
 ```javascript
@@ -144,6 +140,10 @@ export const extractData = () => {
 ```
 
 All of this is only about the first ish version of this lib. We'll still work to create new features. Be free to leave your opinion, bug fixes, sending PR and to be part of this project.
+
+Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
+
+<img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
 
 ## Logo
 
