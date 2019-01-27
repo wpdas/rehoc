@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
+import { updateState, connect } from 'rehoc';
+import * as userDataService from './utils/userDataService';
 import Header from './components/Header/Header';
 import './App.css';
 
-import { updateState, connect } from 'rehoc';
-import * as userData from './utils/userData';
-
 class App extends Component {
   onChangeFirstNameField = event => {
-    //Changing specific state by passing the object name (this "userState" is the same provided here: Index -> ../src/index.js)
-    updateState('userState', {
-      firstName: event.target.value
-    });
+    updateState('userState', { firstName: event.target.value });
   };
 
   onChangeLastNameField = event => {
@@ -18,11 +14,10 @@ class App extends Component {
   };
 
   onClickExtractUserData = () => {
-    console.log(userData.extractData());
+    console.log(userDataService.extractData());
   };
 
   render() {
-    //The state data are automatically passed to props
     const { firstName, lastName } = this.props.userState;
     const { location, city } = this.props.locationState;
 
@@ -68,5 +63,4 @@ class App extends Component {
   }
 }
 
-//Connecting to Rehoc
 export default connect(App);

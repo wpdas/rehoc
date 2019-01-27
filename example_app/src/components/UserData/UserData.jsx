@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'rehoc';
 import classes from './UserData.module.scss';
 
-//Consuming data provided by state. (this "userState" is the same provided here: Index -> ../src/index.js)
 const UserData = ({ userState }) => {
   const { firstName, lastName, picture } = userState;
   return (
@@ -15,5 +14,4 @@ const UserData = ({ userState }) => {
   );
 };
 
-//Connecting to Rehoc
 export default connect(UserData);
