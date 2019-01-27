@@ -1,0 +1,49 @@
+{
+  "name": "rehoc",
+  "version": "0.1.0",
+  "description": "A simple and easy way to manage the state while using React to build your applications.",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "webpack --watch",
+    "build": "webpack"
+  },
+  "peerDependencies": {
+    "react": "^16.7.0"
+  },
+  "dependencies": {
+    "react": "^16.7.0",
+    "webpack": "^4.29.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "webpack-cli": "^3.2.1"
+  },
+  "keywords": [
+    "rehoc",
+    "react",
+    "hoc",
+    "state",
+    "management",
+    "simple",
+    "store",
+    "redux",
+    "component",
+    "context",
+    "api"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wpdas/rehoc"
+  },
+  "author": {
+    "name": "wpdas",
+    "email": "wendersonpdas@gmail.com",
+    "url": "https://www.linkedin.com/in/wenderson-pires-silva"
+  },
+  "license": "MIT"
+}
