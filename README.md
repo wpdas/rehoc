@@ -2,7 +2,7 @@
 
 Rehoc is a tool to manage state container for React apps. It was first used in a React project being built totally thinking in its ecosystem.
 
-It helps your write applications that behave consistently, you can work in a simple and easy way by using Rehoc once that it's clear how to use and change states. This is using the most updated Context API.
+It helps you write applications that behave consistently, you can work in a simple and easy way by using Rehoc once that it's clear how to use and change states. This is using the most updated Context API.
 
 It is tiny (3kB, including dependencies).
 
