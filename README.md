@@ -1,4 +1,4 @@
-# <img src='https://github.com/Wpdas/rehoc/raw/master/rehoc_logo.png' height='60' alt='Rehoc Logo' />
+# <img src='https://github.com/Wpdas/rehoc/raw/master/rehoc_logo_text.png' height='60' alt='Rehoc Logo' />
 
 Rehoc is a tool to manage state container for React apps. It was first used in a React project being built totally thinking in its ecosystem.
 
