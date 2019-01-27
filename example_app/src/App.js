@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import './App.css';
 
 class App extends Component {
+  //Changing specific state by passing the object name (this "userState" is the same provided here: Index -> ../src/index.js)
   onChangeFirstNameField = event => {
     updateState('userState', { firstName: event.target.value });
   };
@@ -18,6 +19,7 @@ class App extends Component {
   };
 
   render() {
+    //The state data are automatically passed to props
     const { firstName, lastName } = this.props.userState;
     const { location, city } = this.props.locationState;
 
