@@ -68,12 +68,16 @@ export const connect = ChildWrappedComponent => {
  * @param {Object} updatedObject
  */
 export const updateState = (stateKey, updatedObject) => {
-  store[stateKey] = {
-    ...store[stateKey],
-    ...updatedObject
-  };
+  if (store.hasOwnProperty(stateKey)) {
+    store[stateKey] = {
+      ...store[stateKey],
+      ...updatedObject
+    };
 
-  if (onUpdateStoreHandler) onUpdateStoreHandler();
+    if (onUpdateStoreHandler) onUpdateStoreHandler();
+  } else {
+    throw new Error(`${stateKey} wasn't found into states.`);
+  }
 };
 
 /**
