@@ -8,11 +8,11 @@
     "build": "webpack"
   },
   "peerDependencies": {
-    "react": "^16.7.0"
+    "react": "^16.6.0"
   },
   "dependencies": {
     "babel-minify-webpack-plugin": "^0.3.1",
-    "react": "^16.7.0",
+    "react": "^16.6.0",
     "webpack": "^4.29.0"
   },
   "devDependencies": {
