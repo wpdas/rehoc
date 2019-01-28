@@ -19,7 +19,7 @@ This assumes you are using [npm](https://www.npmjs.com/) as your package manager
 ## Example Apps (ReactJS & React Native)
 
 - [ReactJS Example APP](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
-- [React Native Example APP](https://github.com/Wpdas/rehoc/tree/master/react_native_example_app/src)
+- [React Native Example APP](https://github.com/Wpdas/rehoc/tree/master/react_native_example_app)
 
 ### How to use
 
