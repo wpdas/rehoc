@@ -16,7 +16,7 @@ npm install --save rehoc
 
 This assumes you are using [npm](https://www.npmjs.com/) as your package manager.
 
-## Example Apps (ReactJS & React Native)
+### Example Apps (ReactJS & React Native)
 
 - [ReactJS Example APP](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
 - [React Native Example APP](https://github.com/Wpdas/rehoc/tree/master/react_native_example_app)
@@ -158,7 +158,7 @@ You can find the official logo [on GitHub](https://github.com/Wpdas/rehoc/raw/ma
 
 ## Important
 
-From version 1.2.0 on, it's supporting React Native.
+React Native is supported from version 1.2.0 on.
 
 ## License
 
