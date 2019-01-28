@@ -1,6 +1,6 @@
 import React from 'react';
 
-let store = {};
+let store = null;
 let InternalProvider;
 let onUpdateStoreHandler;
 
@@ -27,8 +27,12 @@ export const rehoc = WrappedComponent => {
  * @param  {Object} state
  */
 export const setStates = (...state) => {
-  store = { ...state[0] };
-  verifyBuild();
+  if (!store) {
+    store = { ...state[0] };
+    verifyBuild();
+  } else {
+    throw new Error('You can not setState more than once.');
+  }
 };
 
 /**
