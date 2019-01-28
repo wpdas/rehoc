@@ -2,6 +2,7 @@ import React from 'react';
 
 let store = null;
 let InternalProvider;
+let InternalConsumer;
 let onUpdateStoreHandler;
 
 /**
@@ -11,6 +12,19 @@ let onUpdateStoreHandler;
 export const rehoc = WrappedComponent => {
   verifyBuild();
   return class extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.onUpdateStoreHandler = this.onUpdateStoreHandler.bind(this);
+      onUpdateStoreHandler = () => {
+        this.onUpdateStoreHandler();
+      };
+    }
+
+    onUpdateStoreHandler() {
+      this.forceUpdate();
+    }
+
     render() {
       return (
         <InternalProvider value={store}>
@@ -43,24 +57,17 @@ export const connect = ChildWrappedComponent => {
   verifyBuild();
 
   return class extends React.Component {
-    constructor(props) {
-      super(props);
-      this.onUpdateStoreHandler = this.onUpdateStoreHandler.bind(this);
-      onUpdateStoreHandler = () => {
-        this.onUpdateStoreHandler();
-      };
-    }
-
-    onUpdateStoreHandler() {
-      this.forceUpdate();
-    }
-
     render() {
       const updatedProps = {
         ...this.props,
         ...store
       };
       return <ChildWrappedComponent {...updatedProps} />;
+      // return (
+      //   <InternalConsumer>
+      //     {context => <ChildWrappedComponent {...context} />}
+      //   </InternalConsumer>
+      // )
     }
   };
 };
@@ -91,7 +98,8 @@ export const getStore = () => store;
 
 const verifyBuild = () => {
   if (!InternalProvider) {
-    const { Provider } = React.createContext();
+    const { Provider, Consumer } = React.createContext();
     InternalProvider = Provider;
+    InternalConsumer = Consumer;
   }
 };
