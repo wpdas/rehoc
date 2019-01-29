@@ -212,7 +212,7 @@ import * as stopsListService from './services/stops-list.service';
 
 class SearchByAddress extends Component {
   componentDidMount() {
-    stopsListService.getStopsList();
+    stopsListService.getFilteredListByAddress();
   }
   ...
 }
