@@ -2,7 +2,7 @@
 
 Rehoc is a tool to manage state container for React apps. It was first used in a React project being built totally thinking in its ecosystem.
 
-It helps you write applications that behave consistently, you can work in a simple and easy way by using Rehoc once that it's clear how to use and change states. This is using the most updated Context API.
+It helps you write applications that behave consistently, you can work in a simple and easy way by using Rehoc once that it's clear how to use and change states. Rehoc also has friendly error messages so it's easy to identify when something is wrong with the states.
 
 It is tiny (3kB, including dependencies).
 
@@ -152,13 +152,75 @@ Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/
 
 <img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
 
+## Well to know & Tips
+
+- React Native is supported from version 1.2.0 on;
+- Avoid changing state properties that don't need to be changed;
+- It's not possible to set new properties into states after Rehoc starts. You're able only to change its values;
+- If you don't need Component and its children to be re-rendered after changing its Rehoc state, you can call updateState setting the last parameter (shouldComponentUpdate) as false:
+
+```javascript
+/**
+ * Updates the state body by stateKey
+ * Example: updateState('stateA', {}, true);
+ * @param {String} stateKey
+ * @param {Object} updatedObject
+ * @param {Boolean} shouldComponentUpdate
+ */
+updateState(stateKey, { stopsList: response.data.stops }, false);
+```
+
+- Example of folder structure:
+
+```
+src/
+├── services/
+│   ├── stops-list.service.js
+│   ├── user.service.js
+│   └── login.service.js
+└── states/
+    ├── stops-list.state.js
+    ├── user.state.js
+    └── login.state.js
+
+```
+
+- Service example:
+
+```javascript
+import { getStore, updateState } from 'rehoc';
+
+const stateKey = 'stopsListState';
+
+/**
+ * Filtering list of bus stops
+ **/
+export const getFilteredListByAddress = filterText => {
+  const stopsListData = getStore().stopsListState.originalStopsData;
+  let filter = filterText.toLowerCase();
+  let list = stopsListData.filter(item => {
+    return item.shortname.toLowerCase().includes(filter);
+  });
+  updateState(stateKey, { filteredList: list });
+};
+```
+
+- Using the service above into some component:
+
+```javascript
+import * as stopsListService from './services/stops-list.service';
+
+class SearchByAddress extends Component {
+  componentDidMount() {
+    stopsListService.getStopsList();
+  }
+  ...
+}
+```
+
 ## Logo
 
 You can find the official logo [on GitHub](https://github.com/Wpdas/rehoc/raw/master/rehoc_logo.png).
-
-## Important
-
-React Native is supported from version 1.2.0 on.
 
 ## License
 
