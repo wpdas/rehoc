@@ -1,8 +1,6 @@
 import React from 'react';
 
 let store = null;
-let InternalProvider;
-let InternalConsumer;
 let onUpdateStoreHandler;
 
 /**
@@ -10,7 +8,6 @@ let onUpdateStoreHandler;
  * @param {React.Component} WrappedComponent
  */
 export const rehoc = WrappedComponent => {
-  verifyBuild();
   return class extends React.Component {
     constructor(props) {
       super(props);
@@ -26,11 +23,7 @@ export const rehoc = WrappedComponent => {
     }
 
     render() {
-      return (
-        <InternalProvider value={store}>
-          <WrappedComponent {...this.props} />
-        </InternalProvider>
-      );
+      return <WrappedComponent {...this.props} />;
     }
   };
 };
@@ -43,9 +36,8 @@ export const rehoc = WrappedComponent => {
 export const setStates = (...state) => {
   if (!store) {
     store = { ...state[0] };
-    verifyBuild();
   } else {
-    throw new Error('You can not setState more than once.');
+    throw new Error('Rehoc --> You can not call setState more than once.');
   }
 };
 
@@ -54,8 +46,6 @@ export const setStates = (...state) => {
  * @param {React.Component} ChildWrappedComponent
  */
 export const connect = ChildWrappedComponent => {
-  verifyBuild();
-
   return class extends React.Component {
     render() {
       const updatedProps = {
@@ -63,31 +53,65 @@ export const connect = ChildWrappedComponent => {
         ...store
       };
       return <ChildWrappedComponent {...updatedProps} />;
-      // return (
-      //   <InternalConsumer>
-      //     {context => <ChildWrappedComponent {...context} />}
-      //   </InternalConsumer>
-      // )
     }
   };
 };
 
 /**
  * Updates the state body by stateKey
- * Example: updateState('stateA', {});
+ * Example: updateState('stateA', {}, true);
  * @param {String} stateKey
  * @param {Object} updatedObject
+ * @param {Boolean} shouldComponentUpdate
  */
-export const updateState = (stateKey, updatedObject) => {
+export const updateState = (
+  stateKey,
+  updatedObject,
+  shouldComponentUpdate = true
+) => {
+  // Cheking if state exists into store
   if (store.hasOwnProperty(stateKey)) {
-    store[stateKey] = {
-      ...store[stateKey],
-      ...updatedObject
-    };
+    // Checking body integrity
+    let unknowKeys = [];
+    const itsSameBody = Object.keys(updatedObject).reduce(
+      (previous, current) => {
+        if (Object.keys(store[stateKey]).indexOf(current) === -1) {
+          unknowKeys.push(current);
+        }
+        return !!store[stateKey][current] && previous;
+      },
+      true
+    );
 
-    if (onUpdateStoreHandler) onUpdateStoreHandler();
+    // State body errors
+    if (!itsSameBody && !!unknowKeys.length) {
+      if (unknowKeys.length === 1) {
+        throw new Error(
+          `Rehoc --> The attribute "${
+            unknowKeys[0]
+          }" wasn't found into ${stateKey} State.`
+        );
+      } else {
+        throw new Error(
+          `Rehoc --> The attributes \"${unknowKeys.join(
+            '", "'
+          )}\" were't found into ${stateKey} State.`
+        );
+      }
+    } else {
+      // Update the main store
+      store[stateKey] = {
+        ...store[stateKey],
+        ...updatedObject
+      };
+
+      //Re-render
+      if (onUpdateStoreHandler && shouldComponentUpdate) onUpdateStoreHandler();
+    }
   } else {
-    throw new Error(`${stateKey} wasn't found into states.`);
+    throw new Error(
+      `Rehoc --> The State "${stateKey}" wasn't found into list states.`
+    );
   }
 };
 
@@ -95,11 +119,3 @@ export const updateState = (stateKey, updatedObject) => {
  * Return store containing all states
  */
 export const getStore = () => store;
-
-const verifyBuild = () => {
-  if (!InternalProvider) {
-    const { Provider, Consumer } = React.createContext();
-    InternalProvider = Provider;
-    InternalConsumer = Consumer;
-  }
-};
