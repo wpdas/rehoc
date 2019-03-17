@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 
 //Rehoc
 import { setStates, rehoc } from 'rehoc';
-import userState from './states/user-state';
-import locationState from './states/location-state';
+import userState from './states/user/state';
+import locationState from './states/location/state';
 
 import './index.css';
 import App from './App';

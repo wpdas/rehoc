@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
 import { updateState, connect } from 'rehoc';
-import * as userDataService from './utils/userDataService';
+import * as userStateActions from './states/user/actions';
 import Header from './components/Header/Header';
 import './App.css';
 
+import * as locationStateActions from './states/location/actions';
+
+const stateName = 'userState';
+
 class App extends Component {
-  //Changing specific state by passing the object name (this "userState" is the same provided here: Index -> ../src/index.js)
   onChangeFirstNameField = event => {
-    updateState('userState', { firstName: event.target.value });
+    updateState(stateName, { firstName: event.target.value });
   };
 
   onChangeLastNameField = event => {
-    updateState('userState', { lastName: event.target.value });
+    updateState(stateName, { lastName: event.target.value });
   };
 
   onClickExtractUserData = () => {
-    console.log(userDataService.extractData());
+    // You can also call actions related to the State connected to this Component
+    console.log(userStateActions.getUserData());
   };
 
   render() {
-    //The state data are automatically passed to props
-    const { firstName, lastName } = this.props.userState;
-    const { location, city } = this.props.locationState;
+    // Using data provided by the state linked to this Component
+    const { firstName, lastName } = this.props;
+
+    // Always use actions when you need to get data from another state
+    const { location, city } = locationStateActions.getLocation();
 
     return (
       <div className="App">
@@ -65,4 +71,7 @@ class App extends Component {
   }
 }
 
-export default connect(App);
+export default connect(
+  App,
+  stateName
+);

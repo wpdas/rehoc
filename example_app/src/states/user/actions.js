@@ -1,6 +1,5 @@
 import { getStore } from 'rehoc';
 
-//Extracting state
-export const extractData = () => {
+export const getUserData = () => {
   return getStore().userState;
 };

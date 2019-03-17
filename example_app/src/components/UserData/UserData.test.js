@@ -2,7 +2,7 @@ import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import { configure, shallow, mount } from 'enzyme';
 import UserData from './UserData';
-import userState from '../../states/user-state';
+import userState from '../../states/user/state';
 
 // Init Rehoc with app states
 import '../../tests/initRehoc';
@@ -14,7 +14,7 @@ describe('<UserData /> connected to Rehoc', () => {
     const wrapper = shallow(<UserData />);
 
     //Testing props managed by Rehoc
-    const userDataProps = wrapper.props().userState;
+    const userDataProps = wrapper.props();
     expect(userDataProps.firstName).toBeDefined();
     expect(userDataProps.lastName).toBeDefined();
     expect(userDataProps.picture).toBeDefined();

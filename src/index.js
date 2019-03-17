@@ -44,41 +44,58 @@ export const setStates = (...state) => {
 /**
  * Creates a connection between states and component
  * @param {React.Component} ChildWrappedComponent
+ * @param {string} componentStateToConnect State name that will be connected to this Component (optional)
  */
-export const connect = ChildWrappedComponent => {
+export const connect = (ChildWrappedComponent, componentStateToConnect) => {
+  if (!ChildWrappedComponent) {
+    throw new Error(
+      'Rehoc --> You must pass a Component as the first parameter!'
+    );
+  }
+
   return class extends React.Component {
     render() {
-      const updatedProps = {
-        ...this.props,
-        ...store
-      };
+      let updatedProps;
+      if (componentStateToConnect) {
+        const mainState = store[componentStateToConnect];
+        updatedProps = {
+          ...this.props,
+          ...mainState
+        };
+      } else {
+        updatedProps = {
+          ...this.props,
+          ...store
+        };
+      }
+
       return <ChildWrappedComponent {...updatedProps} />;
     }
   };
 };
 
 /**
- * Updates the state body by stateKey
+ * Updates the state body by stateName
  * Example: updateState('stateA', {}, true);
- * @param {String} stateKey
+ * @param {String} stateName
  * @param {Object} updatedObject
  * @param {Boolean} shouldComponentUpdate
  */
 export const updateState = (
-  stateKey,
+  stateName,
   updatedObject,
   shouldComponentUpdate = true
 ) => {
   // Cheking if state exists into store
-  if (store.hasOwnProperty(stateKey)) {
+  if (store.hasOwnProperty(stateName)) {
     // Checking body integrity
     let unknowKeys = [];
     const itsSameBody = Object.keys(updatedObject).reduce(
       (previous, current) => {
-        if (Object.keys(store[stateKey]).indexOf(current) === -1) {
+        if (Object.keys(store[stateName]).indexOf(current) === -1) {
           unknowKeys.push(current);
         }
-        return !!store[stateKey][current] && previous;
+        return !!store[stateName][current] && previous;
       },
       true
     );
@@ -89,19 +106,19 @@ export const updateState = (
         throw new Error(
           `Rehoc --> The attribute "${
             unknowKeys[0]
-          }" wasn't found into ${stateKey} State.`
+          }" wasn't found into ${stateName} State.`
         );
       } else {
         throw new Error(
           `Rehoc --> The attributes \"${unknowKeys.join(
             '", "'
-          )}\" were't found into ${stateKey} State.`
+          )}\" were't found into ${stateName} State.`
         );
       }
     } else {
       // Update the main store
-      store[stateKey] = {
-        ...store[stateKey],
+      store[stateName] = {
+        ...store[stateName],
         ...updatedObject
       };
 
@@ -110,7 +127,7 @@ export const updateState = (
     }
   } else {
     throw new Error(
-      `Rehoc --> The State "${stateKey}" wasn't found into list states.`
+      `Rehoc --> The State "${stateName}" wasn't found into list states.`
     );
   }
 };

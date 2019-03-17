@@ -23,46 +23,37 @@ This assumes you are using [npm](https://www.npmjs.com/) as your package manager
 
 ### How to use
 
-Below are examples of how to use the Rehoc, you can also check our example app.
+Rehoc has these main methods to be used: `{ rehoc, setStates, connect, updateState, getStore }`.
 
-Initializing and consuming Rehoc resources is very simple, you can create your states separated from the Component code as shown below:
+- `rehoc` - The main wrapper to start using this state managament;
+- `setStates` - Used to register initial States;
+- `connect` - Used to connect Components to States (registeres before with `setStates`);
+- `updateState` - Used to update content in some registered State;
+- `getStore` - Returns all States registered by `setStates` containing the most recent values.
+
+Initializing and consuming Rehoc resources is very simple, you can create your states separated from the Component. Below are examples of how to use it, you can also check our example app:
 
 ```javascript
-User State -> ../src/states/user-state.js
-
-const state = {
+const userState = {
   firstName: 'Wenderson',
   lastName: 'Silva',
   picture: 'https://url.com/image.jpg'
 };
 
-export default state;
-```
-
-```javascript
-Location State -> ../src/states/location-state.js
-
-const state = {
-  location: 'Brazil',
-  city: 'Belo Horizonte'
-};
-
-export default state;
+export default userState;
 ```
 
 Then, let's set our app up using Rehoc:
 
 ```jsx
-Index -> ../src/index.js
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
 //Rehoc
 import { setStates, rehoc } from 'rehoc';
-import userState from './states/user-state';
-import locationState from './states/location-state';
+import userState from './states/user/state';
+import locationState from './states/location/state';
 
 //Setting our states
 setStates({
@@ -76,81 +67,86 @@ const MyApp = rehoc(App);
 ReactDOM.render(<MyApp />, document.getElementById('root'));
 ```
 
-Now, you are able to access (I mean, change and consume) the data provided by states in any component with no need to pass this through other components:
+You must use `setStates({...})` to register all States the app will use. Be in mind that the name of states that you are passing to this method will be the name key to access them after. So, for example. Above we are registering `userState`, then, if I want to use this in some component, I need to call for the same name. You will see more about this in the next lines.
+
+Now, you are able to access (I mean, change and consume) the data provided by states in any component with no need to pass this through other components. You will see 2 methods to do this below:
 
 ```jsx
-UserData Component -> ../src/components/UserData/UserData.jsx
-
 import React from 'react';
 import { connect } from 'rehoc';
+import classes from './UserData.module.scss';
 
-//Consuming data provided by state. (this "userState" is the same provided here: Index -> ../src/index.js)
-const UserData = ({ userState }) => {
-  const { firstName, lastName, picture } = userState;
-  return (
-    <div>
-      <span>
-        Name: {firstName} {lastName}
-      </span>
-      <img src={picture} alt={firstName} />
-    </div>
-  );
-};
+const stateName = 'userState';
 
-//Connecting Rehoc
-export default connect(UserData);
-```
+class UserData extends React.Component {
+  render() {
+    // Method One (until version 1.3.0)
+    // const { userState } = this.props;
+    // const { firstName, lastName, picture } = userState;
 
-We can also change the state that we want, let's see this as well:
+    // Method Two (version 1.4.0 on)
+    const { firstName, lastName, picture } = this.props;
 
-```javascript
-App Component -> ../src/App.jsx (only part of the code, see the example project)
-
-//...
-import { updateState, connect } from 'rehoc';
-//...
-
-onChangeFirstNameField = event => {
-  //Changing specific state by passing the object name (this "userState" is the same provided here: Index -> ../src/index.js)
-  updateState('userState', { firstName: event.target.value });
-};
-
-onChangeLastNameField = event => {
-  updateState('userState', { lastName: event.target.value });
-};
-
-render() {
-    const { firstName, lastName } = this.props.userState;
-    const { location, city } = this.props.locationState;
-    //...
+    return (
+      <div className={classes.UserData}>
+        <span>
+          Name: {firstName} {lastName}
+        </span>
+        <img src={picture} alt={firstName} />
+      </div>
+    );
+  }
 }
 
-export default connect(App);
+// Method One (until version 1.3.0)
+// export default connect(UserData);
+
+// Method Two (version 1.4.0 on)
+export default connect(
+  UserData,
+  stateName
+);
 ```
 
-How about whether we want extract a specific state to send this to some database somewhere?
+As mentioned, if you are using method one, you must to call for the same name key registered within `setStates({...})`, then, you will access all its properties. In the other hand, if you are using method two, you need to inform `connect()` method what main state it should connect.
+
+When you choose to use method one (shown above), you need to get first the object state `userState`. This means that all the other States are accessible after `this.props`. So, we recommend you to use method two where you access only the State props related to this Component as shown above. But which way to use, it's up to you.
+
+We can also change the state that we want by using `updateState(stateName, updatedObject, shouldComponentUpdate)`:
 
 ```javascript
-(Extract user data service) -> ../src/utils/userData.js
+import { updateState } from 'rehoc';
 
-import { getStore } from 'rehoc';
-
-export const extractData = () => {
-  return getStore().userState;
-  /**
-   * Return:
-   * { firstName: 'Wenderson', lastName: 'Silva', picture:'https...'}
-   **/
+onChangeFirstNameField = event => {
+  updateState('userState', { firstName: event.target.value });
 };
 ```
 
-All of this is only about the first ish version of this lib. We'll still work to create new features. Be free to leave your opinion, bug fixes, sending PR and to be part of this project.
+And pass the third parameter as false to not re-render the Component:
 
-Through the Example App is possible to see a way of testing the app, you can use Jest and Enzyme for that.
+```javascript
+import { updateState } from 'rehoc';
 
-Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
+onChangeFirstNameField = event => {
+  updateState('userState', { firstName: event.target.value }, false);
+};
+```
 
-<img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
+If you want extract a specific state to send this to some database somewhere, you can use the `getStore()` method. It will return all the States containing the most recent values.
+
+```javascript
+import { getStore } from 'rehoc';
+
+/**
+ * Return:
+ * { firstName: 'Wenderson', lastName: 'Silva', picture:'https...'}
+ **/
+export const getUserData = () => {
+  return getStore().userState;
+};
+```
+
+We'd like to give you essential tips. These tips are to help you structure your project using Rehoc.
 
 ## Well to know & Tips
 
@@ -160,63 +156,110 @@ Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/
 - If you don't need Component and its children to be re-rendered after changing its Rehoc state, you can call updateState setting the last parameter (shouldComponentUpdate) as false:
 
 ```javascript
-/**
- * Updates the state body by stateKey
- * Example: updateState('stateA', {}, true);
- * @param {String} stateKey
- * @param {Object} updatedObject
- * @param {Boolean} shouldComponentUpdate
- */
-updateState(stateKey, { stopsList: response.data.stops }, false);
+import { updateState } from 'rehoc';
+
+const stateName = 'userState';
+
+updateState(stateName, { stopsList: response.data.stops }, false);
 ```
 
-- Example of folder structure:
+- We strongly recommend to adopt this folder structure:
 
 ```
 src/
-├── services/
-│   ├── stops-list.service.js
-│   ├── user.service.js
-│   └── login.service.js
+├── components/
+├── containers/
 └── states/
-    ├── stops-list.state.js
-    ├── user.state.js
-    └── login.state.js
+    └── location/
+        ├── actions.js
+        ├── state.js
+    └── user/
+        ├── actions.js
+        ├── state.js
 
 ```
 
-- Service example:
+You should set the initial properties and values for every State you need. And actions to do things that will affect the co-related States.
+
+Lets suppose that the `userState` should be extracted in somewhere, for this, we can create an action that will expose user data:
 
 ```javascript
-import { getStore, updateState } from 'rehoc';
+// action.js
+import { getStore } from 'rehoc';
 
-const stateKey = 'stopsListState';
-
-/**
- * Filtering list of bus stops
- **/
-export const getFilteredListByAddress = filterText => {
-  const stopsListData = getStore().stopsListState.originalStopsData;
-  let filter = filterText.toLowerCase();
-  let list = stopsListData.filter(item => {
-    return item.shortname.toLowerCase().includes(filter);
-  });
-  updateState(stateKey, { filteredList: list });
+export const getUserData = () => {
+  return getStore().userState;
 };
 ```
 
-- Using the service above into some component:
+Of course, you can use `getStore()` within some another component, but the best way to use this resource is into action files. Just to leave thing as much organized as we can.
+
+- Create a const called `stateName` containing the name of the state you want to connect to the Component. By this way, you can access easily the content related to this State and also change its values.
 
 ```javascript
-import * as stopsListService from './services/stops-list.service';
+import React from 'react';
+import { connect, updateState } from 'rehoc';
 
-class SearchByAddress extends Component {
-  componentDidMount() {
-    stopsListService.getFilteredListByAddress();
+const stateName = 'userState';
+
+class UserData extends React.Component {
+  onServerResponse(response) {
+    updateState(stateName, { stopsList: response.data.stops });
   }
-  ...
 }
+
+export default connect(
+  UserData,
+  stateName
+);
 ```
+
+- Use actions to change or access data that are in another States. Let's suppose that I want to change the location value of some State called `locationState`, but we are into the user component. The user component is not connected to `locationState`. For reach this, we should create an action that will do this change for us. This actions, of course, should be into the `src/states/location` folder. See the example below:
+
+```javascript
+import React from 'react';
+import { connect } from 'rehoc';
+import * as locationStateActions from './states/location/actions';
+
+const stateName = 'userState';
+
+class UserData extends React.Component {
+  // Change location
+  onSelectUSA() {
+    const newLocation = 'USA';
+    locationStateActions.setLocation(newLocation);
+  }
+}
+
+export default connect(
+  UserData,
+  stateName
+);
+```
+
+And this would be our location action(.js file):
+
+```javascript
+import { updateState } from 'rehoc';
+
+const stateName = 'locationState';
+
+// Set new location
+export const setLocation = newlocation => {
+  updateState(stateName, { location: newlocation });
+};
+```
+
+- Take a look in the [states](https://github.com/Wpdas/rehoc/tree/master/example_app/src/states) folder structure and files (Example App);
+- Take a look in the [index.js](https://github.com/Wpdas/rehoc/tree/master/example_app/src/index.js) file (Example App);
+- Take a look in the [App.js](https://github.com/Wpdas/rehoc/tree/master/example_app/src/App.js) file (Example App);
+- Take a look in the [UserData.jsx](https://github.com/Wpdas/rehoc/tree/master/example_app/src/components/UserData/UserData.jsx) file (Example App);
+- Take a look in the [actions.test.js](https://github.com/Wpdas/rehoc/tree/master/example_app/src/states/user/actions.test.js) file to see how to write tests for your action files (Example App);
+- See through the Example App the way of testing the app, you can use Jest and Enzyme for that (Example App);
+
+Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
+
+<img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
 
 ## Logo
 
