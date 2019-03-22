@@ -122,16 +122,6 @@ onChangeFirstNameField = event => {
 };
 ```
 
-And pass the third parameter as false to not re-render the Component:
-
-```javascript
-import { updateState } from 'rehoc';
-
-onChangeFirstNameField = event => {
-  updateState('userState', { firstName: event.target.value });
-};
-```
-
 If you want extract a specific state to send this to some database somewhere, you can use the `getStore()` method. It will return all the States containing the most recent values.
 
 ```javascript
