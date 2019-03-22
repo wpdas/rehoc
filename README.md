@@ -1,10 +1,10 @@
 # <img src='https://github.com/Wpdas/rehoc/raw/master/rehoc_logo_text.png' height='60' alt='Rehoc Logo' />
 
-Rehoc is a tool to manage state container for React apps. It was first used in a React project being built totally thinking in its ecosystem.
+Rehoc is a tool to manage state container for React apps. It was first used in a React project being built totally thinking in its ecosystem. The work behind the scenes happens using the new Context API provided by React.
 
 It helps you write applications that behave consistently, you can work in a simple and easy way by using Rehoc once that it's clear how to use and change states. Rehoc also has friendly error messages so it's easy to identify when something is wrong with the states.
 
-It is tiny (3kB, including dependencies).
+It is tiny (4kB, including dependencies).
 
 ## Installation
 
@@ -25,7 +25,7 @@ This assumes you are using [npm](https://www.npmjs.com/) as your package manager
 
 Rehoc has these main methods to be used: `{ rehoc, setStates, connect, updateState, getStore }`.
 
-- `rehoc` - The main wrapper to start using this state managament;
+- `rehoc` - The main wrapper to start using this state management;
 - `setStates` - Used to register initial States;
 - `connect` - Used to connect Components to States (registeres before with `setStates`);
 - `updateState` - Used to update content in some registered State;
@@ -80,7 +80,7 @@ const stateName = 'userState';
 
 class UserData extends React.Component {
   render() {
-    // Method One (until version 1.3.0)
+    // Method One (version 1.3.0)
     // const { userState } = this.props;
     // const { firstName, lastName, picture } = userState;
 
@@ -98,7 +98,7 @@ class UserData extends React.Component {
   }
 }
 
-// Method One (until version 1.3.0)
+// Method One (version 1.3.0)
 // export default connect(UserData);
 
 // Method Two (version 1.4.0 on)
@@ -112,7 +112,7 @@ As mentioned, if you are using method one, you must to call for the same name ke
 
 When you choose to use method one (shown above), you need to get first the object state `userState`. This means that all the other States are accessible after `this.props`. So, we recommend you to use method two where you access only the State props related to this Component as shown above. But which way to use, it's up to you.
 
-We can also change the state that we want by using `updateState(stateName, updatedObject, shouldComponentUpdate)`:
+We can also change the state that we want by using `updateState(stateName, updatedObject)`:
 
 ```javascript
 import { updateState } from 'rehoc';
@@ -128,7 +128,7 @@ And pass the third parameter as false to not re-render the Component:
 import { updateState } from 'rehoc';
 
 onChangeFirstNameField = event => {
-  updateState('userState', { firstName: event.target.value }, false);
+  updateState('userState', { firstName: event.target.value });
 };
 ```
 
@@ -153,16 +153,6 @@ We'd like to give you essential tips. These tips are to help you structure your 
 - React Native is supported from version 1.2.0 on;
 - Avoid changing state properties that don't need to be changed;
 - It's not possible to set new properties into states after Rehoc starts. You're able only to change its values;
-- If you don't need Component and its children to be re-rendered after changing its Rehoc state, you can call updateState setting the last parameter (shouldComponentUpdate) as false:
-
-```javascript
-import { updateState } from 'rehoc';
-
-const stateName = 'userState';
-
-updateState(stateName, { stopsList: response.data.stops }, false);
-```
-
 - We strongly recommend to adopt this folder structure:
 
 ```
@@ -260,6 +250,12 @@ export const setLocation = newlocation => {
 Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
 
 <img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
+
+## Deprecations
+
+### v1.5.0
+
+- `updateState` method, now has only two parameters `updateState(stateName: string, updatedObject: any)`. The third one called `shouldComponentUpdate` is not being used anymore and it was deprecated since version 1.5.0.
 
 ## Logo
 
