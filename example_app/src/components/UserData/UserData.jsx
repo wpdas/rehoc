@@ -6,7 +6,7 @@ const stateName = 'userState';
 
 class UserData extends React.Component {
   render() {
-    // Method One (until version 1.3.0)
+    // Method One (version 1.3.0)
     // const { userState } = this.props;
     // const { firstName, lastName, picture } = userState;
 
@@ -24,7 +24,7 @@ class UserData extends React.Component {
   }
 }
 
-// Method One (until version 1.3.0)
+// Method One (version 1.3.0)
 // export default connect(UserData);
 
 // Method Two (version 1.4.0 on)
