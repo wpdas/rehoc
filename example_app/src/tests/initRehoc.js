@@ -1,6 +1,6 @@
 import { setStates } from 'rehoc';
-import userState from '../states/user-state';
-import locationState from '../states/location-state';
+import userState from '../states/user/state';
+import locationState from '../states/location/state';
 
 //Start states
 describe('Initialize Rehoc states', () => {

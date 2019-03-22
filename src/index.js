@@ -1,35 +1,62 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-let store = null;
-let onUpdateStoreHandler;
+// Globals
+let onUpdateStateHandler;
+let onGetStateHandler;
+let store;
+
+// Global Rehoc Context
+export const RehocContext = React.createContext({});
 
 /**
  * Init Rehoc
  * @param {React.Component} WrappedComponent
  */
 export const rehoc = WrappedComponent => {
-  return class extends React.Component {
+  return class extends Component {
     constructor(props) {
       super(props);
 
-      this.onUpdateStoreHandler = this.onUpdateStoreHandler.bind(this);
-      onUpdateStoreHandler = () => {
-        this.onUpdateStoreHandler();
+      this.updateContent = (propKey, updatedObject) => {
+        this.setState(
+          prevState => ({
+            [propKey]: {
+              ...prevState[propKey],
+              ...updatedObject
+            }
+          }),
+          () => {
+            store = this.state;
+          }
+        );
+      };
+
+      this.getState = () => {
+        return this.state;
+      };
+
+      // Set initial state by store data
+      this.state = store;
+
+      onUpdateStateHandler = this.updateContent;
+      onGetStateHandler = () => {
+        return this.state;
       };
     }
 
-    onUpdateStoreHandler() {
-      this.forceUpdate();
-    }
-
     render() {
-      return <WrappedComponent {...this.props} />;
+      return (
+        // Pass the entire state to the provider
+        <RehocContext.Provider value={this.state}>
+          <WrappedComponent />
+        </RehocContext.Provider>
+      );
     }
   };
 };
 
 /**
- * Set states
+ * Set states. Store setter
  * Example: setStates({stateA:{}, stateB:{}})
  * @param  {Object} state
  */
@@ -42,43 +69,64 @@ export const setStates = (...state) => {
 };
 
 /**
+ * Connector
  * Creates a connection between states and component
- * @param {React.Component} ChildWrappedComponent
+ * @param {React.Component} WrappedComponent
+ * @param {string} stateKeyName State name that will be connected to this Component (optional)
  */
-export const connect = ChildWrappedComponent => {
-  return class extends React.Component {
+export const connect = (WrappedComponent, stateKeyName) => {
+  if (!WrappedComponent) {
+    throw new Error(
+      'Rehoc --> You must pass a Component as the first parameter!'
+    );
+  }
+
+  return class extends Component {
     render() {
-      const updatedProps = {
-        ...this.props,
-        ...store
-      };
-      return <ChildWrappedComponent {...updatedProps} />;
+      return (
+        <RehocContext.Consumer>
+          {states => {
+            const updatedChildProps = states[stateKeyName];
+            const childProps = {
+              ...this.props,
+              ...updatedChildProps
+            };
+            return <WrappedComponent {...childProps} />;
+          }}
+        </RehocContext.Consumer>
+      );
     }
   };
 };
 
 /**
- * Updates the state body by stateKey
- * Example: updateState('stateA', {}, true);
- * @param {String} stateKey
+ * Updates the state body by stateName
+ * Example: updateState('stateA', {});
+ * @param {String} stateName
  * @param {Object} updatedObject
- * @param {Boolean} shouldComponentUpdate
  */
 export const updateState = (
-  stateKey,
+  stateName,
   updatedObject,
-  shouldComponentUpdate = true
+  deprecated__shouldComponentUpdate
 ) => {
+  if (deprecated__shouldComponentUpdate !== undefined) {
+    console.warn(
+      "Rehoc --> shouldComponentUpdate parameter is not being used anymore. It' was deprecated!"
+    );
+  }
+
+  let currentStore = getStore();
   // Cheking if state exists into store
-  if (store.hasOwnProperty(stateKey)) {
+  if (currentStore.hasOwnProperty(stateName)) {
     // Checking body integrity
     let unknowKeys = [];
     const itsSameBody = Object.keys(updatedObject).reduce(
       (previous, current) => {
-        if (Object.keys(store[stateKey]).indexOf(current) === -1) {
+        if (Object.keys(currentStore[stateName]).indexOf(current) === -1) {
           unknowKeys.push(current);
         }
-        return !!store[stateKey][current] && previous;
+        return !!currentStore[stateName][current] && previous;
       },
       true
     );
@@ -89,33 +137,35 @@ export const updateState = (
         throw new Error(
           `Rehoc --> The attribute "${
             unknowKeys[0]
-          }" wasn't found into ${stateKey} State.`
+          }" wasn't found into ${stateName} State.`
         );
       } else {
         throw new Error(
           `Rehoc --> The attributes \"${unknowKeys.join(
             '", "'
-          )}\" were't found into ${stateKey} State.`
+          )}\" were't found into ${stateName} State.`
         );
       }
     } else {
-      // Update the main store
-      store[stateKey] = {
-        ...store[stateKey],
-        ...updatedObject
-      };
-
       //Re-render
-      if (onUpdateStoreHandler && shouldComponentUpdate) onUpdateStoreHandler();
+      if (onUpdateStateHandler) {
+        onUpdateStateHandler(stateName, updatedObject);
+      }
     }
   } else {
     throw new Error(
-      `Rehoc --> The State "${stateKey}" wasn't found into list states.`
+      `Rehoc --> The State "${stateName}" wasn't found into list states.`
     );
   }
 };
 
 /**
- * Return store containing all states
+ * Return store containing all most updated states
  */
-export const getStore = () => store;
+export const getStore = () => {
+  if (onGetStateHandler) {
+    return onGetStateHandler();
+  }
+
+  return {};
+};

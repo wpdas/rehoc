@@ -2,18 +2,33 @@ import React from 'react';
 import { connect } from 'rehoc';
 import classes from './UserData.module.scss';
 
-//Consuming data provided by state. (this "userState" is the same provided here: Index -> ../src/index.js)
-const UserData = ({ userState }) => {
-  const { firstName, lastName, picture } = userState;
-  return (
-    <div className={classes.UserData}>
-      <span>
-        Name: {firstName} {lastName}
-      </span>
-      <img src={picture} alt={firstName} />
-    </div>
-  );
-};
+const stateName = 'userState';
 
-//Connecting to Rehoc
-export default connect(UserData);
+class UserData extends React.Component {
+  render() {
+    // Method One (version 1.3.0)
+    // const { userState } = this.props;
+    // const { firstName, lastName, picture } = userState;
+
+    // Method Two (version 1.4.0 on)
+    const { firstName, lastName, picture } = this.props;
+
+    return (
+      <div className={classes.UserData}>
+        <span>
+          Name: {firstName} {lastName}
+        </span>
+        <img src={picture} alt={firstName} />
+      </div>
+    );
+  }
+}
+
+// Method One (version 1.3.0)
+// export default connect(UserData);
+
+// Method Two (version 1.4.0 on)
+export default connect(
+  UserData,
+  stateName
+);
