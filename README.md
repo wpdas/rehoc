@@ -27,7 +27,7 @@ Rehoc has these main methods to be used: `{ rehoc, setStates, connect, updateSta
 
 - `rehoc` - The main wrapper to start using this state management;
 - `setStates` - Used to register initial States;
-- `connect` - Used to connect Components to States (registeres before with `setStates`). You can connect the Component to one or more states. [See here](Multi-state);
+- `connect` - Used to connect Components to States (registeres before with `setStates`). You can connect the Component to one or more states. [See here](#multi-state);
 - `updateState` - Used to update content in some registered State;
 - `getStore` - Returns all States registered by `setStates` containing the most recent values.
 
@@ -140,7 +140,7 @@ We'd like to give you essential tips. These tips are to help you structure your 
 
 ## Well to know & Tips
 
-- The multi-state connection is supported from version 1.6.0 onwards. [See here](Multi-state);
+- The multi-state connection is supported from version 1.6.0 onwards. [See here](#multi-state);
 - Using multi-state connection to get specifics states properties is better than call `getStore()` method;
 - Use PureComponent or React.memo() as often as you can;
 - React Native is supported from version 1.2.0 onwards;
@@ -296,7 +296,7 @@ Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/
 ### v1.6.0
 
 - Performance was improved;
-- `connect` method, now can connect multiples states to the same component. [See example here](Multi-state).
+- `connect` method, now can connect multiples states to the same component. [See example here](#multi-state).
 
 ### v1.5.0
 
