@@ -73,6 +73,7 @@ export const setStates = (...state) => {
  * Creates a connection between states and component
  * @param {React.Component} WrappedComponent
  * @param {string} stateKeyName State name that will be connected to this Component (optional)
+ * @param {array} stateKeyName States name that will be connected to this Component (optional)
  */
 export const connect = (WrappedComponent, stateKeyName) => {
   if (!WrappedComponent) {
@@ -86,7 +87,19 @@ export const connect = (WrappedComponent, stateKeyName) => {
       return (
         <RehocContext.Consumer>
           {states => {
-            const updatedChildProps = states[stateKeyName];
+            let updatedChildProps = {};
+            if (Array.isArray(stateKeyName)) {
+              // Set all states asked
+              stateKeyName.forEach(stateName => {
+                updatedChildProps = {
+                  ...updatedChildProps,
+                  ...states[stateName]
+                };
+              });
+            } else {
+              // Set the only state asked
+              updatedChildProps = states[stateKeyName];
+            }
             const childProps = {
               ...this.props,
               ...updatedChildProps

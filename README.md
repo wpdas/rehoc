@@ -27,7 +27,7 @@ Rehoc has these main methods to be used: `{ rehoc, setStates, connect, updateSta
 
 - `rehoc` - The main wrapper to start using this state management;
 - `setStates` - Used to register initial States;
-- `connect` - Used to connect Components to States (registeres before with `setStates`);
+- `connect` - Used to connect Components to States (registeres before with `setStates`). You can connect the Component to one or more states. [See here](#multi-state);
 - `updateState` - Used to update content in some registered State;
 - `getStore` - Returns all States registered by `setStates` containing the most recent values.
 
@@ -76,7 +76,7 @@ import React from 'react';
 import { connect } from 'rehoc';
 import classes from './UserData.module.scss';
 
-const stateName = 'userState';
+const userState = 'userState';
 
 class UserData extends React.Component {
   render() {
@@ -101,10 +101,10 @@ class UserData extends React.Component {
 // Method One (version 1.3.0)
 // export default connect(UserData);
 
-// Method Two (version 1.4.0 on)
+// Method Two (version 1.4.0 onwards)
 export default connect(
   UserData,
-  stateName
+  userState
 );
 ```
 
@@ -140,7 +140,10 @@ We'd like to give you essential tips. These tips are to help you structure your 
 
 ## Well to know & Tips
 
-- React Native is supported from version 1.2.0 on;
+- The multi-state connection is supported from version 1.6.0 onwards. [See here](#multi-state);
+- Using multi-state connection to get specifics states properties is better than call `getStore()` method;
+- Use PureComponent or React.memo() as often as you can;
+- React Native is supported from version 1.2.0 onwards;
 - Avoid changing state properties that don't need to be changed;
 - It's not possible to set new properties into states after Rehoc starts. You're able only to change its values;
 - We strongly recommend to adopt this folder structure:
@@ -180,17 +183,64 @@ Of course, you can use `getStore()` within some another component, but the best 
 import React from 'react';
 import { connect, updateState } from 'rehoc';
 
-const stateName = 'userState';
+const userState = 'userState';
 
-class UserData extends React.Component {
+class UserData extends React.PureComponent {
   onServerResponse(response) {
-    updateState(stateName, { stopsList: response.data.stops });
+    updateState(userState, { picture: response.data.picture });
+  }
+
+  render() {
+    const { firstName } = this.props;
+
+    return (
+      <div>
+        <p>User Name: {firstName}</p>
+      </div>
+    );
   }
 }
 
 export default connect(
   UserData,
-  stateName
+  userState
+);
+```
+
+### Multi-state
+
+- From version 1.6.0 onwards, it's possible to connect a component to multiple states at once. This is better than call `getStore()`. The getStore method needs to check and get all the states, even those that you don't need to use.
+
+```javascript
+import React from 'react';
+import { connect, updateState } from 'rehoc';
+
+const userState = 'userState';
+const addressState = 'addressState';
+
+class UserData extends React.PureComponent {
+  onServerResponse(response) {
+    updateState(userState, { picture: response.data.picture });
+    updateState(addressState, { street: response.data.street });
+  }
+
+  render() {
+    // firstName from userState;
+    // street from addressState;
+    const { firstName, street } = this.props;
+
+    return (
+      <div>
+        <p>User Name: {firstName}</p>
+        <p>User Street Name: {street}</p>
+      </div>
+    );
+  }
+}
+
+export default connect(
+  UserData,
+  [stateName, addressState] // multi-state
 );
 ```
 
@@ -237,14 +287,16 @@ export const setLocation = newlocation => {
 - Take a look in the [actions.test.js](https://github.com/Wpdas/rehoc/tree/master/example_app/src/states/user/actions.test.js) file to see how to write tests for your action files (Example App);
 - See through the Example App the way of testing the app, you can use Jest and Enzyme for that (Example App);
 
-Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
+## Changelogs
 
-<img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
+### v1.6.0
 
-## Deprecations
+- Performance was improved;
+- `connect` method, now can connect multiples states to the same component. [See example here](#multi-state).
 
 ### v1.5.0
 
+- Using the new ContextAPI;
 - `updateState` method, now has only two parameters `updateState(stateName: string, updatedObject: any)`. The third one called `shouldComponentUpdate` is not being used anymore and it was deprecated since version 1.5.0.
 
 ## Logo
