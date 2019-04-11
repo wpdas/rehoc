@@ -76,7 +76,7 @@ import React from 'react';
 import { connect } from 'rehoc';
 import classes from './UserData.module.scss';
 
-const stateName = 'userState';
+const userState = 'userState';
 
 class UserData extends React.Component {
   render() {
@@ -101,7 +101,7 @@ class UserData extends React.Component {
 // Method One (version 1.3.0)
 // export default connect(UserData);
 
-// Method Two (version 1.4.0 on)
+// Method Two (version 1.4.0 onwards)
 export default connect(
   UserData,
   stateName
@@ -140,7 +140,9 @@ We'd like to give you essential tips. These tips are to help you structure your 
 
 ## Well to know & Tips
 
-- React Native is supported from version 1.2.0 on;
+- The multi-state connection is supported from version 1.6.0 onwards;
+- Using multi-state connection to get specifics states properties is better than call `getStore()` method;
+- React Native is supported from version 1.2.0 onwards;
 - Avoid changing state properties that don't need to be changed;
 - It's not possible to set new properties into states after Rehoc starts. You're able only to change its values;
 - We strongly recommend to adopt this folder structure:
@@ -180,17 +182,64 @@ Of course, you can use `getStore()` within some another component, but the best 
 import React from 'react';
 import { connect, updateState } from 'rehoc';
 
-const stateName = 'userState';
+const userState = 'userState';
 
-class UserData extends React.Component {
+class UserData extends React.PureComponent {
   onServerResponse(response) {
-    updateState(stateName, { stopsList: response.data.stops });
+    updateState(userState, { picture: response.data.picture });
+  }
+
+  render() {
+    const { firstName } = this.props;
+
+    return (
+      <div>
+        <p>User Name: {firstName}</p>
+      </div>
+    );
   }
 }
 
 export default connect(
   UserData,
-  stateName
+  userState
+);
+```
+
+### Multi-state
+
+- From version 1.6.0 onwards, it's possible to connect a component to multiple states at once. This is better than call `getStore()`. The getStore method needs to check and get all the states, even those that you don't need to use.
+
+```javascript
+import React from 'react';
+import { connect, updateState } from 'rehoc';
+
+const userState = 'userState';
+const addressState = 'addressState';
+
+class UserData extends React.PureComponent {
+  onServerResponse(response) {
+    updateState(userState, { picture: response.data.picture });
+    updateState(addressState, { street: response.data.street });
+  }
+
+  render() {
+    // firstName from userState;
+    // street from addressState;
+    const { firstName, street } = this.props;
+
+    return (
+      <div>
+        <p>User Name: {firstName}</p>
+        <p>User Street Name: {street}</p>
+      </div>
+    );
+  }
+}
+
+export default connect(
+  UserData,
+  [stateName, addressState] // multi-state
 );
 ```
 
@@ -241,10 +290,16 @@ Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/
 
 <img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
 
-## Deprecations
+## Changelogs
+
+### v1.6.0
+
+- Performance was improved;
+- `connect` method, now can connect multiples states to the same component. [See example here](Multi-state).
 
 ### v1.5.0
 
+- Using the new ContextAPI;
 - `updateState` method, now has only two parameters `updateState(stateName: string, updatedObject: any)`. The third one called `shouldComponentUpdate` is not being used anymore and it was deprecated since version 1.5.0.
 
 ## Logo
