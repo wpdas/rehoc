@@ -287,10 +287,6 @@ export const setLocation = newlocation => {
 - Take a look in the [actions.test.js](https://github.com/Wpdas/rehoc/tree/master/example_app/src/states/user/actions.test.js) file to see how to write tests for your action files (Example App);
 - See through the Example App the way of testing the app, you can use Jest and Enzyme for that (Example App);
 
-Example app working: [See the example app here.](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
-
-<img width="395" alt="screenshot 2019-01-27 at 06 54 51" src="https://user-images.githubusercontent.com/3761994/51798962-18088000-2202-11e9-8f25-340d2a57f999.png">
-
 ## Changelogs
 
 ### v1.6.0
