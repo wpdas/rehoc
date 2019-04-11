@@ -89,7 +89,7 @@ export const connect = (WrappedComponent, stateKeyName) => {
           {states => {
             let updatedChildProps = {};
             if (Array.isArray(stateKeyName)) {
-              // Get all states asked
+              // Set all states asked
               stateKeyName.forEach(stateName => {
                 updatedChildProps = {
                   ...updatedChildProps,
