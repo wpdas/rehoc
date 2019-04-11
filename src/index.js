@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 
 // Globals
 let onUpdateStateHandler;
@@ -82,7 +82,7 @@ export const connect = (WrappedComponent, stateKeyName) => {
     );
   }
 
-  return class extends PureComponent {
+  return class extends Component {
     render() {
       return (
         <RehocContext.Consumer>
