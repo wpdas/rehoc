@@ -1,7 +1,7 @@
 {
   "name": "rehoc",
-  "version": "1.6.1",
-  "description": "A simple and easy way to manage the state while using React to build your applications.",
+  "version": "1.6.2",
+  "description": "A simple and easy way to manage the state while using ReactJS or React Native to build your applications.",
   "main": "build/index.js",
   "scripts": {
     "start": "webpack --watch",

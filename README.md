@@ -16,9 +16,10 @@ npm install --save rehoc
 
 This assumes you are using [npm](https://www.npmjs.com/) as your package manager.
 
-### Example
+### Examples
 
-- [Basic APP + Tests - CodeSandBox](https://codesandbox.io/s/rehoc-app-example-gw8br?fontsize=14)
+- [Basic App - CodeSandBox](https://codesandbox.io/s/rehoc-app-example-gw8br?fontsize=14)
+- [Using Multiples States - CodeSandBox](https://codesandbox.io/s/rehoc-using-multiples-states-wn1l9?fontsize=14)
 
 ### How to use
 
