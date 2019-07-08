@@ -64,7 +64,7 @@ export const setStates = (...state) => {
   if (!store) {
     store = { ...state[0] };
   } else {
-    throw new Error('Rehoc --> You can not call setState more than once.');
+    console.warn('Rehoc --> You can not call setState more than once.');
   }
 };
 

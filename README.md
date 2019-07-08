@@ -1,6 +1,6 @@
 # <img src='https://github.com/Wpdas/rehoc/raw/master/rehoc_logo_text.png' height='60' alt='Rehoc Logo' />
 
-Rehoc is a tool to manage state container for React apps. It was first used in a React project being built totally thinking in its ecosystem. The work behind the scenes happens using the new Context API provided by React.
+Rehoc is a tool to manage state container for React (JS and Native) apps. It was first used in a React project being built totally thinking in its ecosystem. The work behind the scenes happens using the new Context API provided by React.
 
 It helps you write applications that behave consistently, you can work in a simple and easy way by using Rehoc once that it's clear how to use and change states. Rehoc also has friendly error messages so it's easy to identify when something is wrong with the states.
 
@@ -16,10 +16,9 @@ npm install --save rehoc
 
 This assumes you are using [npm](https://www.npmjs.com/) as your package manager.
 
-### Example Apps (ReactJS & React Native)
+### Example
 
-- [ReactJS Example APP](https://github.com/Wpdas/rehoc/tree/master/example_app/src)
-- [React Native Example APP](https://github.com/Wpdas/rehoc/tree/master/react_native_example_app)
+- [Basic APP + Tests - CodeSandBox](https://codesandbox.io/s/rehoc-app-example-gw8br?fontsize=14)
 
 ### How to use
 
@@ -280,14 +279,11 @@ export const setLocation = newlocation => {
 };
 ```
 
-- Take a look in the [states](https://github.com/Wpdas/rehoc/tree/master/example_app/src/states) folder structure and files (Example App);
-- Take a look in the [index.js](https://github.com/Wpdas/rehoc/tree/master/example_app/src/index.js) file (Example App);
-- Take a look in the [App.js](https://github.com/Wpdas/rehoc/tree/master/example_app/src/App.js) file (Example App);
-- Take a look in the [UserData.jsx](https://github.com/Wpdas/rehoc/tree/master/example_app/src/components/UserData/UserData.jsx) file (Example App);
-- Take a look in the [actions.test.js](https://github.com/Wpdas/rehoc/tree/master/example_app/src/states/user/actions.test.js) file to see how to write tests for your action files (Example App);
-- See through the Example App the way of testing the app, you can use Jest and Enzyme for that (Example App);
-
 ## Changelogs
+
+### v1.6.1
+
+- Bug fixes;
 
 ### v1.6.0
 

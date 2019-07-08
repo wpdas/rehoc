@@ -1,6 +1,6 @@
 {
   "name": "rehoc",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "A simple and easy way to manage the state while using React to build your applications.",
   "main": "build/index.js",
   "scripts": {

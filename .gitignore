@@ -18,7 +18,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Example app
-/react_native_example_app/node_modules
-/example_app/node_modules
